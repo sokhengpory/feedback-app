@@ -12,11 +12,19 @@ function App() {
   // first arg is the state's value and the second arg is the function to change the state's value
   const [feedback, setFeedback] = useState(FeedbackData);
 
+  const deleteFeedback = (id) => {
+    // ask the user to confirm the delete
+    if (window.confirm('Are you sure you want to delete?')) {
+      // filter out the id that need to delete from the array of "feedback" and set the new return array to the "feedback" state
+      setFeedback(feedback.filter((item) => item.id !== id));
+    }
+  };
+
   return (
     <>
       <Header />
       <div className="container">
-        <FeedbackList feedback={feedback} />
+        <FeedbackList feedback={feedback} handleDelete={deleteFeedback} />
       </div>
     </>
   );
