@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import Card from './shared/Card';
+import Button from './shared/Button';
 
 function FeedbackForm() {
   const [review, setReview] = useState('');
@@ -20,7 +21,8 @@ function FeedbackForm() {
           onChange={handleReviewChange}
           value={review}
         />
-        <button type="submit">Send</button>
+        {/* Custom "Button" component */}
+        <Button type="submit">Send</Button>
       </div>
     </Card>
   );
