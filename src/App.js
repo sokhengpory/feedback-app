@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Header from './components/Header';
 import FeedbackList from './components/FeedbackList';
 import FeedbackStats from './components/FeedbackStats';
 import FeedbackForm from './components/FeedbackForm';
 import FeedbackData from './data/FeedbackData';
+import AboutPage from './pages/AboutPage';
 
 // when we return JSX, it must be only one parent element
 // "<></>"" react fragment use when we don't want any div to wrap the child element
@@ -13,6 +15,14 @@ function App() {
   // manange global state level componenet
   // first arg is the state's value and the second arg is the function to change the state's value
   const [feedback, setFeedback] = useState(FeedbackData);
+
+  const addFeedback = (newFeedback) => {
+    const newId = feedback.length + 1;
+    newFeedback.id = newId;
+
+    console.log(newFeedback);
+    setFeedback([...feedback, newFeedback]);
+  };
 
   const deleteFeedback = (id) => {
     // ask the user to confirm the delete
@@ -23,14 +33,30 @@ function App() {
   };
 
   return (
-    <>
+    <Router>
       <Header />
       <div className="container">
-        <FeedbackForm />
-        <FeedbackStats feedback={feedback} />
-        <FeedbackList feedback={feedback} handleDelete={deleteFeedback} />
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+              <>
+                <FeedbackForm handleAdd={addFeedback} />
+                <FeedbackStats feedback={feedback} />
+                <FeedbackList
+                  feedback={feedback}
+                  handleDelete={deleteFeedback}
+                />
+              </>
+            }
+          ></Route>
+        </Routes>
       </div>
-    </>
+      <Routes>
+        <Route path="/about" element={<AboutPage />} />
+      </Routes>
+    </Router>
   );
 }
 

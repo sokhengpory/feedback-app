@@ -11,7 +11,7 @@ function FeedbackItem({ item, handleDelete }) {
       <button className="close" onClick={() => handleDelete(item.id)}>
         <FaTimes />
       </button>
-      <div className="text-display">{item.text}</div>
+      <div className="text-display">{item.review}</div>
     </Card>
   );
 }
