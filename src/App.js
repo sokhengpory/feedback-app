@@ -7,6 +7,7 @@ import FeedbackStats from './components/FeedbackStats';
 import FeedbackForm from './components/FeedbackForm';
 import FeedbackData from './data/FeedbackData';
 import AboutPage from './pages/AboutPage';
+import AboutIconLink from './components/AboutIconLink';
 
 // when we return JSX, it must be only one parent element
 // "<></>"" react fragment use when we don't want any div to wrap the child element
@@ -53,9 +54,12 @@ function App() {
           ></Route>
         </Routes>
       </div>
+
       <Routes>
         <Route path="/about" element={<AboutPage />} />
       </Routes>
+
+      <AboutIconLink />
     </Router>
   );
 }
