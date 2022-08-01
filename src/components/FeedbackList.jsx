@@ -1,7 +1,11 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import FeedbackItem from './FeedbackItem';
+import { useContext } from 'react';
+import FeedbackContext from '../context/FeedbackContext';
 
-function FeedbackList({ feedback, handleDelete }) {
+function FeedbackList({ handleDelete }) {
+  const { feedback } = useContext(FeedbackContext);
+
   // check if for feedback
   if (!feedback || feedback.length === 0) {
     return <p>No feedback yet.</p>;
@@ -18,17 +22,17 @@ function FeedbackList({ feedback, handleDelete }) {
   );
 }
 
-FeedbackList.propTypes = {
-  // feedback: PropTypes.array,
-  // more specific define than above
-  feedback: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      review: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
-    })
-  ),
-  handleDelete: PropTypes.func,
-};
+// FeedbackList.propTypes = {
+//   // feedback: PropTypes.array,
+//   // more specific define than above
+//   feedback: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       id: PropTypes.number.isRequired,
+//       review: PropTypes.string.isRequired,
+//       rating: PropTypes.number.isRequired,
+//     })
+//   ),
+//   handleDelete: PropTypes.func,
+// };
 
 export default FeedbackList;
