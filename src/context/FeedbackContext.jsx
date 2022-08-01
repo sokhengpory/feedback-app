@@ -1,5 +1,6 @@
 import { createContext, useState } from 'react';
 import FeedbackData from '../data/FeedbackData';
+import { v4 as uuidv4 } from 'uuid';
 
 const FeedbackContext = createContext();
 
@@ -13,8 +14,7 @@ export const FeedbackProvider = ({ children }) => {
 
   // Add feedback
   const addFeedback = (newFeedback) => {
-    const newId = feedback.length + 1;
-    newFeedback.id = newId;
+    newFeedback.id = uuidv4();
 
     setFeedback([...feedback, newFeedback]);
   };
@@ -25,6 +25,7 @@ export const FeedbackProvider = ({ children }) => {
     if (window.confirm('Are you sure you want to delete?')) {
       // filter out the id that need to delete from the array of "feedback" and set the new return array to the "feedback" state
       setFeedback(feedback.filter((item) => item.id !== id));
+      setFeedbackEdit({ item: {}, isEditable: false });
     }
   };
 
@@ -36,6 +37,29 @@ export const FeedbackProvider = ({ children }) => {
     });
   };
 
+  // Update feedback item
+  const updateFeedbackItem = (id, updateItem) => {
+    // option 1:
+    setFeedback(
+      feedback.map((feedbackItem) => {
+        if (feedbackItem.id === id) {
+          const newItem = { ...feedbackItem, ...updateItem };
+          return newItem;
+        }
+        return feedbackItem;
+      })
+    );
+    setFeedbackEdit({ item: {}, isEditable: false });
+
+    // option 2:
+    // updateItem.id = id;
+    // setFeedback(
+    //   feedback.map((feedbackItem) =>
+    //     feedbackItem.id === id ? updateItem : feedbackItem
+    //   )
+    // );
+  };
+
   return (
     // the "value" props is where we pass the state to the children that need it
     <FeedbackContext.Provider
@@ -45,6 +69,7 @@ export const FeedbackProvider = ({ children }) => {
         deleteFeedback,
         editFeedback,
         feedbackEdit,
+        updateFeedbackItem,
       }}
     >
       {children}

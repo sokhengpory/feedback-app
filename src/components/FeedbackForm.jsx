@@ -6,7 +6,8 @@ import RatingSelected from './RatingSelected';
 import FeedbackContext from '../context/FeedbackContext';
 
 function FeedbackForm() {
-  const { addFeedback, feedbackEdit } = useContext(FeedbackContext);
+  const { addFeedback, feedbackEdit, updateFeedbackItem } =
+    useContext(FeedbackContext);
 
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(10);
@@ -18,6 +19,10 @@ function FeedbackForm() {
       setBtnDisabled(false);
       setReview(feedbackEdit.item.review);
       setRating(feedbackEdit.item.rating);
+    } else {
+      setReview('');
+      setRating(10);
+      setBtnDisabled(true);
     }
   }, [feedbackEdit]);
 
@@ -47,7 +52,15 @@ function FeedbackForm() {
       rating,
     };
 
-    addFeedback(newFeedback);
+    if (feedbackEdit.isEditable) {
+      updateFeedbackItem(feedbackEdit.item.id, newFeedback);
+    } else {
+      addFeedback(newFeedback);
+    }
+
+    setBtnDisabled(true);
+    setReview('');
+    setRating(10);
   };
 
   return (
@@ -55,7 +68,7 @@ function FeedbackForm() {
       <form onSubmit={handleSubmit}>
         <h2>How would you rate your service with us?</h2>
         {/* pass prop "select" as a function to receive the "rating" value of "RatingSelected" component */}
-        <RatingSelected select={(rating) => setRating(rating)} />
+        <RatingSelected select={setRating} selected={rating} />
         <div className="input-group">
           <input
             type="text"
