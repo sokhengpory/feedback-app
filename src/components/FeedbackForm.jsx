@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import Card from './shared/Card';
 import Button from './shared/Button';
@@ -6,12 +6,20 @@ import RatingSelected from './RatingSelected';
 import FeedbackContext from '../context/FeedbackContext';
 
 function FeedbackForm() {
-  const { addFeedback } = useContext(FeedbackContext);
+  const { addFeedback, feedbackEdit } = useContext(FeedbackContext);
 
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(10);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (feedbackEdit.isEditable) {
+      setBtnDisabled(false);
+      setReview(feedbackEdit.item.review);
+      setRating(feedbackEdit.item.rating);
+    }
+  }, [feedbackEdit]);
 
   // set "review" state to value of the input
   const handleReviewChange = (event) => {
