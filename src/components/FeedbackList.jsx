@@ -1,9 +1,8 @@
-// import PropTypes from 'prop-types';
 import FeedbackItem from './FeedbackItem';
 import { useContext } from 'react';
 import FeedbackContext from '../context/FeedbackContext';
 
-function FeedbackList({ handleDelete }) {
+function FeedbackList() {
   const { feedback } = useContext(FeedbackContext);
 
   // check if for feedback
@@ -14,25 +13,10 @@ function FeedbackList({ handleDelete }) {
   return (
     <div className="feedback-list">
       {feedback.map((item) => {
-        return (
-          <FeedbackItem key={item.id} item={item} handleDelete={handleDelete} />
-        );
+        return <FeedbackItem key={item.id} item={item} />;
       })}
     </div>
   );
 }
-
-// FeedbackList.propTypes = {
-//   // feedback: PropTypes.array,
-//   // more specific define than above
-//   feedback: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.number.isRequired,
-//       review: PropTypes.string.isRequired,
-//       rating: PropTypes.number.isRequired,
-//     })
-//   ),
-//   handleDelete: PropTypes.func,
-// };
 
 export default FeedbackList;
